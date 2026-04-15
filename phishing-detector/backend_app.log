@@ -84,3 +84,46 @@
 2026-04-15 22:36:29,531 | INFO     | backend.analyzer | VERDICT: legitimate (4.00%)
 2026-04-15 22:36:29,532 | INFO     | backend.analyzer | ==================================================
 2026-04-15 22:36:29,532 | INFO     | sentinel | [DONE] Analysis completed in 0.002s
+2026-04-16 00:09:33,015 | INFO     | sentinel | [STARTUP] Starting Sentinel Phishing Detection API...
+2026-04-16 00:09:33,016 | INFO     | sentinel | [STARTUP] Loading ML model from: D:\project 1\phishing-detector\ml_model\model.pkl
+2026-04-16 00:09:35,480 | INFO     | sentinel | [STARTUP] ML model loaded successfully.
+2026-04-16 00:09:35,481 | INFO     | sentinel | [STARTUP] Analyzer pipeline initialized.
+2026-04-16 00:13:21,355 | INFO     | sentinel | [REQUEST #1] https://acviss.com/glossary/fake-website-detection/
+2026-04-16 00:13:21,368 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:21,369 | INFO     | backend.analyzer | ANALYZING: https://acviss.com/glossary/fake-website-detection/
+2026-04-16 00:13:21,369 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:21,376 | INFO     | backend.analyzer | Features: {'url_length': 51, 'num_dots': 1, 'has_https': 1, 'has_ip': 0, 'keyword_count': 0, 'num_hyphens': 2, 'num_slashes': 3, 'has_at_symbol': 0, 'path_length': 33, 'subdomain_depth': 0}
+2026-04-16 00:13:21,639 | INFO     | backend.analyzer | ML phishing probability: 0.0000
+2026-04-16 00:13:21,640 | INFO     | backend.rule_engine | Rule engine score: 0.00 (0/8 rules matched)
+2026-04-16 00:13:21,641 | INFO     | backend.analyzer | Rule engine score: 0.0000
+2026-04-16 00:13:21,654 | INFO     | backend.threat_intel | Threat Intel score: 0.20 (1 flags)
+2026-04-16 00:13:21,655 | INFO     | backend.analyzer | Threat intel score: 0.2000
+2026-04-16 00:13:21,658 | INFO     | backend.analyzer | VERDICT: legitimate (4.00%)
+2026-04-16 00:13:21,659 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:21,659 | INFO     | sentinel | [DONE] Analysis completed in 0.293s
+2026-04-16 00:13:32,846 | INFO     | sentinel | [REQUEST #2] https://acviss.com/glossary/fake-website-detection/
+2026-04-16 00:13:32,847 | INFO     | sentinel | [CACHE HIT] Returning cached result.
+2026-04-16 00:13:45,529 | INFO     | sentinel | [REQUEST #3] https://mituniversity.ac.in/
+2026-04-16 00:13:45,534 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:45,535 | INFO     | backend.analyzer | ANALYZING: https://mituniversity.ac.in/
+2026-04-16 00:13:45,535 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:45,537 | INFO     | backend.analyzer | Features: {'url_length': 28, 'num_dots': 2, 'has_https': 1, 'has_ip': 0, 'keyword_count': 0, 'num_hyphens': 0, 'num_slashes': 1, 'has_at_symbol': 0, 'path_length': 1, 'subdomain_depth': 1}
+2026-04-16 00:13:45,543 | INFO     | backend.analyzer | ML phishing probability: 0.0000
+2026-04-16 00:13:45,544 | INFO     | backend.rule_engine | Rule engine score: 0.00 (0/8 rules matched)
+2026-04-16 00:13:45,544 | INFO     | backend.analyzer | Rule engine score: 0.0000
+2026-04-16 00:13:45,545 | INFO     | backend.threat_intel | Threat Intel score: 0.00 (0 flags)
+2026-04-16 00:13:45,546 | INFO     | backend.analyzer | Threat intel score: 0.0000
+2026-04-16 00:13:45,548 | INFO     | backend.analyzer | VERDICT: legitimate (0.00%)
+2026-04-16 00:13:45,549 | INFO     | backend.analyzer | ==================================================
+2026-04-16 00:13:45,558 | INFO     | sentinel | [DONE] Analysis completed in 0.024s
+2026-04-16 00:13:54,778 | INFO     | sentinel | [REQUEST #4] https://mituniversity.ac.in/
+2026-04-16 00:13:54,779 | INFO     | sentinel | [CACHE HIT] Returning cached result.
+2026-04-16 00:16:05,057 | INFO     | sentinel | [REQUEST #5] https://mituniversity.ac.in/
+2026-04-16 00:16:05,057 | INFO     | sentinel | [CACHE HIT] Returning cached result.
+2026-04-16 00:16:51,478 | INFO     | sentinel | [REQUEST #6] https://mituniversity.ac.in/
+2026-04-16 00:16:51,478 | INFO     | sentinel | [CACHE HIT] Returning cached result.
+2026-04-16 00:23:22,867 | INFO     | sentinel | [STARTUP] Starting Sentinel Phishing Detection API...
+2026-04-16 00:23:22,867 | INFO     | sentinel | [STARTUP] Loading ML model from: D:\project 1\phishing-detector\ml_model\model.pkl
+2026-04-16 00:23:24,754 | INFO     | sentinel | [STARTUP] ML model loaded successfully.
+2026-04-16 00:23:24,754 | INFO     | sentinel | [STARTUP] Analyzer pipeline initialized.
+2026-04-16 00:23:24,755 | INFO     | sentinel | [SHUTDOWN] Shutting down Sentinel API.

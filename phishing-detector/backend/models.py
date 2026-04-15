@@ -1,7 +1,7 @@
 """
 Pydantic Request / Response Schemas
 ====================================
-Includes input URL validation with edge case handling.
+Includes input URL validation and rich response models.
 """
 
 from pydantic import BaseModel, field_validator
@@ -17,46 +17,78 @@ class AnalyzeRequest(BaseModel):
     @field_validator('url')
     @classmethod
     def validate_url(cls, v: str) -> str:
-        # Strip whitespace
         v = v.strip()
-
-        # Must be HTTP or HTTPS
         if not v.startswith(('http://', 'https://')):
             raise ValueError('URL must start with http:// or https://')
-
-        # Must have a valid netloc
         parsed = urlparse(v)
         if not parsed.netloc or not parsed.hostname:
             raise ValueError('URL must contain a valid domain or IP address')
-
-        # Reject empty / too-short URLs
         if len(v) < 10:
             raise ValueError('URL is too short to be valid')
-
-        # Reject localhost and private IPs
         hostname = parsed.hostname
         try:
             ip = ipaddress.ip_address(hostname)
             if ip.is_private or ip.is_loopback or ip.is_reserved:
                 raise ValueError('Localhost, private, and reserved IPs are not allowed')
         except ValueError as e:
-            # If it's our own raised ValueError, re-raise it
             if 'not allowed' in str(e):
                 raise
-            # Otherwise it's a normal domain name → fine
             pass
-
-        # Reject non-HTTP schemes that snuck through
         if parsed.scheme not in ('http', 'https'):
             raise ValueError('Only HTTP and HTTPS protocols are supported')
-
         return v
 
 
+class SSLInfo(BaseModel):
+    """SSL certificate analysis."""
+    has_ssl: bool = False
+    is_valid: bool = False
+    issuer: Optional[str] = None
+    subject: Optional[str] = None
+    expires_in_days: Optional[int] = None
+    not_before: Optional[str] = None
+    not_after: Optional[str] = None
+    protocol: Optional[str] = None
+    serial_number: Optional[str] = None
+    error: Optional[str] = None
+
+
+class DomainInfo(BaseModel):
+    """WHOIS domain analysis."""
+    domain: Optional[str] = None
+    registrar: Optional[str] = None
+    creation_date: Optional[str] = None
+    expiration_date: Optional[str] = None
+    domain_age_days: Optional[int] = None
+    name_servers: List[str] = []
+    country: Optional[str] = None
+    error: Optional[str] = None
+
+
+class HTMLInfo(BaseModel):
+    """HTML content analysis."""
+    page_title: Optional[str] = None
+    forms_count: int = 0
+    external_form_actions: List[str] = []
+    external_scripts_count: int = 0
+    external_scripts: List[str] = []
+    hidden_iframes_count: int = 0
+    hidden_iframes: List[str] = []
+    password_fields: int = 0
+    meta_redirects: List[str] = []
+    total_links: int = 0
+    external_links: int = 0
+    external_link_ratio: float = 0.0
+    error: Optional[str] = None
+
+
 class AnalyzeResponse(BaseModel):
-    """API response returned to the Chrome extension."""
+    """Full API response with all analysis details."""
     phishing_probability: float
-    label: str   # "phishing" | "suspicious" | "legitimate"
+    label: str
     reasons: List[str]
     confidence_breakdown: Dict[str, float]
     feature_values: Optional[Dict[str, Any]] = None
+    ssl_info: Optional[SSLInfo] = None
+    domain_info: Optional[DomainInfo] = None
+    html_info: Optional[HTMLInfo] = None

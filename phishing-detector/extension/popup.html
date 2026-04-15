@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinel AI — Phishing Detector</title>
+    <title>Sentinel AI - Phishing Detector</title>
     <link rel="stylesheet" href="popup.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="logo">
-                <span class="shield">🛡️</span> Sentinel AI
-            </div>
-            <div class="version">v2.0</div>
+            <div class="logo"><span class="shield">&#x1f6e1;</span> Sentinel AI</div>
+            <div class="version">v3.0</div>
         </header>
 
         <!-- Active URL Bar -->
-        <div class="url-bar" id="url-bar">
+        <div class="url-bar">
             <span class="url-label">TARGET</span>
             <span class="url-text" id="current-url">Loading...</span>
         </div>
@@ -27,12 +24,12 @@
         <div id="loading" class="state loading-state">
             <div class="pulse-ring"></div>
             <div class="spinner"></div>
-            <p class="loading-text">Scanning for threats<span class="dots">...</span></p>
+            <p class="loading-text">Deep scanning target...</p>
         </div>
 
         <!-- Error State -->
         <div id="error-state" class="state error-state hidden">
-            <div class="error-icon">⚠️</div>
+            <div class="error-icon">&#x26a0;</div>
             <p id="error-message">Could not reach analysis engine.</p>
             <button id="retry-btn" class="btn btn-primary">Retry Scan</button>
         </div>
@@ -44,10 +41,8 @@
                 <div class="score-visual">
                     <div class="score-ring">
                         <svg viewBox="0 0 36 36" class="circular-chart">
-                            <path class="circle-bg"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path class="circle" id="score-circle" stroke-dasharray="0, 100"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" id="score-circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                         </svg>
                         <div class="percentage" id="score-text">0%</div>
                     </div>
@@ -58,42 +53,66 @@
                 </div>
             </div>
 
-            <!-- Confidence Breakdown with Visual Bars -->
-            <div class="section confidence-section">
-                <h3>⚙️ Engine Breakdown</h3>
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="tab-engines">Engines</button>
+                <button class="tab-btn" data-tab="tab-features">Features</button>
+                <button class="tab-btn" data-tab="tab-ssl">SSL</button>
+                <button class="tab-btn" data-tab="tab-domain">Domain</button>
+                <button class="tab-btn" data-tab="tab-html">HTML</button>
+            </div>
+
+            <!-- Tab: Engine Breakdown -->
+            <div class="tab-panel active" id="tab-engines">
                 <div class="conf-row">
-                    <div class="conf-info">
-                        <span class="conf-name">ML Analysis</span>
-                        <span class="conf-value" id="conf-ml">--</span>
-                    </div>
+                    <div class="conf-info"><span class="conf-name">ML Analysis</span><span class="conf-value" id="conf-ml">--</span></div>
                     <div class="progress-track"><div class="progress-fill" id="bar-ml"></div></div>
                 </div>
                 <div class="conf-row">
-                    <div class="conf-info">
-                        <span class="conf-name">Heuristic Rules</span>
-                        <span class="conf-value" id="conf-rules">--</span>
-                    </div>
+                    <div class="conf-info"><span class="conf-name">Heuristic Rules</span><span class="conf-value" id="conf-rules">--</span></div>
                     <div class="progress-track"><div class="progress-fill" id="bar-rules"></div></div>
                 </div>
                 <div class="conf-row">
-                    <div class="conf-info">
-                        <span class="conf-name">Threat Intel</span>
-                        <span class="conf-value" id="conf-api">--</span>
-                    </div>
+                    <div class="conf-info"><span class="conf-name">Threat Intel</span><span class="conf-value" id="conf-api">--</span></div>
                     <div class="progress-track"><div class="progress-fill" id="bar-api"></div></div>
+                </div>
+
+                <h3 class="sub-heading">Threat Indicators</h3>
+                <ul id="reasons-list"></ul>
+            </div>
+
+            <!-- Tab: URL Features -->
+            <div class="tab-panel" id="tab-features">
+                <div class="feature-grid" id="feature-grid">
+                    <!-- Populated by JS -->
                 </div>
             </div>
 
-            <!-- Threat Indicators -->
-            <div class="section details-section">
-                <h3>🔍 Threat Indicators</h3>
-                <ul id="reasons-list"></ul>
+            <!-- Tab: SSL -->
+            <div class="tab-panel" id="tab-ssl">
+                <div class="info-grid" id="ssl-grid">
+                    <p class="empty-msg">No SSL data</p>
+                </div>
+            </div>
+
+            <!-- Tab: Domain / WHOIS -->
+            <div class="tab-panel" id="tab-domain">
+                <div class="info-grid" id="domain-grid">
+                    <p class="empty-msg">No domain data</p>
+                </div>
+            </div>
+
+            <!-- Tab: HTML Analysis -->
+            <div class="tab-panel" id="tab-html">
+                <div class="info-grid" id="html-grid">
+                    <p class="empty-msg">No HTML data</p>
+                </div>
             </div>
         </div>
 
         <!-- History Panel -->
         <div class="section history-section" id="history-section">
-            <h3>📋 Scan History</h3>
+            <h3>Scan History</h3>
             <div id="history-list" class="history-list">
                 <p class="empty-history">No scans yet</p>
             </div>
@@ -101,7 +120,7 @@
 
         <!-- Footer -->
         <footer>
-            <button id="scan-btn" class="btn btn-scan">🔄 Re-Scan Current Page</button>
+            <button id="scan-btn" class="btn btn-scan">Re-Scan Current Page</button>
         </footer>
     </div>
     <script src="popup.js"></script>
