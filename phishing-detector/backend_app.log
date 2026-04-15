@@ -5,3 +5,82 @@
 2026-04-15 22:31:17,314 │ INFO     │ sentinel │ 📦 Loading ML model from: D:\project 1\phishing-detector\ml_model\model.pkl
 2026-04-15 22:31:18,663 │ INFO     │ sentinel │ ✅ ML model loaded successfully.
 2026-04-15 22:31:18,666 │ INFO     │ sentinel │ ✅ Analyzer pipeline initialized.
+2026-04-15 22:32:59,729 | INFO     | sentinel | [STARTUP] Starting Sentinel Phishing Detection API...
+2026-04-15 22:32:59,730 | INFO     | sentinel | [STARTUP] Loading ML model from: D:\project 1\phishing-detector\ml_model\model.pkl
+2026-04-15 22:33:00,996 | INFO     | sentinel | [STARTUP] ML model loaded successfully.
+2026-04-15 22:33:00,996 | INFO     | sentinel | [STARTUP] Analyzer pipeline initialized.
+2026-04-15 22:33:43,607 | INFO     | sentinel | [REQUEST #1] https://github.com/microsoft
+2026-04-15 22:33:43,607 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:43,607 | INFO     | backend.analyzer | ANALYZING: https://github.com/microsoft
+2026-04-15 22:33:43,607 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:43,607 | INFO     | backend.analyzer | Features: {'url_length': 28, 'num_dots': 1, 'has_https': 1, 'has_ip': 0, 'keyword_count': 0, 'num_hyphens': 0, 'num_slashes': 1, 'has_at_symbol': 0, 'path_length': 10, 'subdomain_depth': 0}
+2026-04-15 22:33:43,612 | INFO     | backend.analyzer | ML phishing probability: 0.0000
+2026-04-15 22:33:43,612 | INFO     | backend.rule_engine | Rule engine score: 0.00 (0/8 rules matched)
+2026-04-15 22:33:43,612 | INFO     | backend.analyzer | Rule engine score: 0.0000
+2026-04-15 22:33:43,614 | INFO     | backend.threat_intel | Threat Intel score: 0.20 (1 flags)
+2026-04-15 22:33:43,615 | INFO     | backend.analyzer | Threat intel score: 0.2000
+2026-04-15 22:33:43,615 | INFO     | backend.analyzer | VERDICT: legitimate (4.00%)
+2026-04-15 22:33:43,615 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:43,615 | INFO     | sentinel | [DONE] Analysis completed in 0.008s
+2026-04-15 22:33:52,273 | INFO     | sentinel | [REQUEST #2] http://login-verify-bank.com.suspicious-domain.evil.xyz/account/update/confirm
+2026-04-15 22:33:52,273 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:52,273 | INFO     | backend.analyzer | ANALYZING: http://login-verify-bank.com.suspicious-domain.evil.xyz/account/update/confirm
+2026-04-15 22:33:52,273 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:52,274 | INFO     | backend.analyzer | Features: {'url_length': 78, 'num_dots': 4, 'has_https': 0, 'has_ip': 0, 'keyword_count': 7, 'num_hyphens': 3, 'num_slashes': 3, 'has_at_symbol': 0, 'path_length': 23, 'subdomain_depth': 3}
+2026-04-15 22:33:52,276 | INFO     | backend.analyzer | ML phishing probability: 1.0000
+2026-04-15 22:33:52,276 | INFO     | backend.rule_engine | Rule triggered: SUSP_KEYWORDS (severity=25)
+2026-04-15 22:33:52,276 | INFO     | backend.rule_engine | Rule triggered: NO_HTTPS (severity=35)
+2026-04-15 22:33:52,276 | INFO     | backend.rule_engine | Rule triggered: EXCESSIVE_SUBDOMAINS (severity=20)
+2026-04-15 22:33:52,276 | INFO     | backend.rule_engine | Rule triggered: LONG_URL (severity=15)
+2026-04-15 22:33:52,276 | INFO     | backend.rule_engine | Rule triggered: HYPHEN_BOMB (severity=20)
+2026-04-15 22:33:52,277 | INFO     | backend.rule_engine | Rule engine score: 0.51 (5/8 rules matched)
+2026-04-15 22:33:52,277 | INFO     | backend.analyzer | Rule engine score: 0.5111
+2026-04-15 22:33:52,277 | INFO     | backend.threat_intel | Threat Intel score: 1.00 (3 flags)
+2026-04-15 22:33:52,277 | INFO     | backend.analyzer | Threat intel score: 1.0000
+2026-04-15 22:33:52,277 | INFO     | backend.analyzer | VERDICT: phishing (90.22%)
+2026-04-15 22:33:52,277 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:33:52,277 | INFO     | sentinel | [DONE] Analysis completed in 0.004s
+2026-04-15 22:35:14,900 | INFO     | sentinel | [REQUEST #3] https://www.google.com/search?q=hello
+2026-04-15 22:35:14,900 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:35:14,900 | INFO     | backend.analyzer | ANALYZING: https://www.google.com/search?q=hello
+2026-04-15 22:35:14,900 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:35:14,900 | INFO     | backend.analyzer | Features: {'url_length': 37, 'num_dots': 2, 'has_https': 1, 'has_ip': 0, 'keyword_count': 0, 'num_hyphens': 0, 'num_slashes': 1, 'has_at_symbol': 0, 'path_length': 7, 'subdomain_depth': 1}
+2026-04-15 22:35:14,903 | INFO     | backend.analyzer | ML phishing probability: 0.0000
+2026-04-15 22:35:14,903 | INFO     | backend.rule_engine | Rule engine score: 0.00 (0/8 rules matched)
+2026-04-15 22:35:14,903 | INFO     | backend.analyzer | Rule engine score: 0.0000
+2026-04-15 22:35:14,903 | INFO     | backend.threat_intel | Threat Intel score: 0.00 (0 flags)
+2026-04-15 22:35:14,903 | INFO     | backend.analyzer | Threat intel score: 0.0000
+2026-04-15 22:35:14,903 | INFO     | backend.analyzer | VERDICT: legitimate (0.00%)
+2026-04-15 22:35:14,903 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:35:14,903 | INFO     | sentinel | [DONE] Analysis completed in 0.003s
+2026-04-15 22:36:20,734 | INFO     | sentinel | [REQUEST #4] http://secure-update-verify.account-login.tk/signin/confirm?user=admin@bank.com
+2026-04-15 22:36:20,735 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:20,735 | INFO     | backend.analyzer | ANALYZING: http://secure-update-verify.account-login.tk/signin/confirm?user=admin@bank.com
+2026-04-15 22:36:20,735 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:20,735 | INFO     | backend.analyzer | Features: {'url_length': 79, 'num_dots': 2, 'has_https': 0, 'has_ip': 0, 'keyword_count': 9, 'num_hyphens': 3, 'num_slashes': 2, 'has_at_symbol': 1, 'path_length': 15, 'subdomain_depth': 1}
+2026-04-15 22:36:20,737 | INFO     | backend.analyzer | ML phishing probability: 0.7437
+2026-04-15 22:36:20,737 | INFO     | backend.rule_engine | Rule triggered: SUSP_KEYWORDS (severity=25)
+2026-04-15 22:36:20,737 | INFO     | backend.rule_engine | Rule triggered: NO_HTTPS (severity=35)
+2026-04-15 22:36:20,737 | INFO     | backend.rule_engine | Rule triggered: AT_SYMBOL (severity=50)
+2026-04-15 22:36:20,737 | INFO     | backend.rule_engine | Rule triggered: LONG_URL (severity=15)
+2026-04-15 22:36:20,738 | INFO     | backend.rule_engine | Rule triggered: HYPHEN_BOMB (severity=20)
+2026-04-15 22:36:20,738 | INFO     | backend.rule_engine | Rule engine score: 0.64 (5/8 rules matched)
+2026-04-15 22:36:20,738 | INFO     | backend.analyzer | Rule engine score: 0.6444
+2026-04-15 22:36:20,738 | INFO     | backend.threat_intel | Threat Intel score: 1.00 (3 flags)
+2026-04-15 22:36:20,738 | INFO     | backend.analyzer | Threat intel score: 1.0000
+2026-04-15 22:36:20,738 | INFO     | backend.analyzer | VERDICT: phishing (77.51%)
+2026-04-15 22:36:20,738 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:20,738 | INFO     | sentinel | [DONE] Analysis completed in 0.003s
+2026-04-15 22:36:29,529 | INFO     | sentinel | [REQUEST #5] https://stackoverflow.com/questions/12345
+2026-04-15 22:36:29,529 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:29,529 | INFO     | backend.analyzer | ANALYZING: https://stackoverflow.com/questions/12345
+2026-04-15 22:36:29,529 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:29,530 | INFO     | backend.analyzer | Features: {'url_length': 41, 'num_dots': 1, 'has_https': 1, 'has_ip': 0, 'keyword_count': 0, 'num_hyphens': 0, 'num_slashes': 2, 'has_at_symbol': 0, 'path_length': 16, 'subdomain_depth': 0}
+2026-04-15 22:36:29,531 | INFO     | backend.analyzer | ML phishing probability: 0.0000
+2026-04-15 22:36:29,531 | INFO     | backend.rule_engine | Rule engine score: 0.00 (0/8 rules matched)
+2026-04-15 22:36:29,531 | INFO     | backend.analyzer | Rule engine score: 0.0000
+2026-04-15 22:36:29,531 | INFO     | backend.threat_intel | Threat Intel score: 0.20 (1 flags)
+2026-04-15 22:36:29,531 | INFO     | backend.analyzer | Threat intel score: 0.2000
+2026-04-15 22:36:29,531 | INFO     | backend.analyzer | VERDICT: legitimate (4.00%)
+2026-04-15 22:36:29,532 | INFO     | backend.analyzer | ==================================================
+2026-04-15 22:36:29,532 | INFO     | sentinel | [DONE] Analysis completed in 0.002s
