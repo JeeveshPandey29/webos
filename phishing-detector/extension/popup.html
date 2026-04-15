@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel AI — Phishing Detector</title>
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="shield">🛡️</span> Sentinel AI
+            </div>
+            <div class="version">v2.0</div>
+        </header>
+
+        <!-- Active URL Bar -->
+        <div class="url-bar" id="url-bar">
+            <span class="url-label">TARGET</span>
+            <span class="url-text" id="current-url">Loading...</span>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="state loading-state">
+            <div class="pulse-ring"></div>
+            <div class="spinner"></div>
+            <p class="loading-text">Scanning for threats<span class="dots">...</span></p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="state error-state hidden">
+            <div class="error-icon">⚠️</div>
+            <p id="error-message">Could not reach analysis engine.</p>
+            <button id="retry-btn" class="btn btn-primary">Retry Scan</button>
+        </div>
+
+        <!-- Result State -->
+        <div id="result-state" class="state result-state hidden">
+            <!-- Score Card -->
+            <div class="score-card" id="score-card">
+                <div class="score-visual">
+                    <div class="score-ring">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" id="score-circle" stroke-dasharray="0, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="percentage" id="score-text">0%</div>
+                    </div>
+                </div>
+                <div class="verdict-box">
+                    <div class="verdict-label" id="threat-label">SCANNING</div>
+                    <div class="verdict-sub" id="verdict-sub">Analyzing URL safety</div>
+                </div>
+            </div>
+
+            <!-- Confidence Breakdown with Visual Bars -->
+            <div class="section confidence-section">
+                <h3>⚙️ Engine Breakdown</h3>
+                <div class="conf-row">
+                    <div class="conf-info">
+                        <span class="conf-name">ML Analysis</span>
+                        <span class="conf-value" id="conf-ml">--</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill" id="bar-ml"></div></div>
+                </div>
+                <div class="conf-row">
+                    <div class="conf-info">
+                        <span class="conf-name">Heuristic Rules</span>
+                        <span class="conf-value" id="conf-rules">--</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill" id="bar-rules"></div></div>
+                </div>
+                <div class="conf-row">
+                    <div class="conf-info">
+                        <span class="conf-name">Threat Intel</span>
+                        <span class="conf-value" id="conf-api">--</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill" id="bar-api"></div></div>
+                </div>
+            </div>
+
+            <!-- Threat Indicators -->
+            <div class="section details-section">
+                <h3>🔍 Threat Indicators</h3>
+                <ul id="reasons-list"></ul>
+            </div>
+        </div>
+
+        <!-- History Panel -->
+        <div class="section history-section" id="history-section">
+            <h3>📋 Scan History</h3>
+            <div id="history-list" class="history-list">
+                <p class="empty-history">No scans yet</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <button id="scan-btn" class="btn btn-scan">🔄 Re-Scan Current Page</button>
+        </footer>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
