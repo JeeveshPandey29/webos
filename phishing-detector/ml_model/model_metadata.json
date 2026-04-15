@@ -1,0 +1,19 @@
+{
+  "model_type": "GradientBoostingClassifier",
+  "accuracy": 1.0,
+  "f1_score": 1.0,
+  "features": [
+    "url_length",
+    "num_dots",
+    "has_https",
+    "has_ip",
+    "keyword_count",
+    "num_hyphens",
+    "num_slashes",
+    "has_at_symbol",
+    "path_length",
+    "subdomain_depth"
+  ],
+  "dataset_size": 5000,
+  "training_split": "80/20"
+}

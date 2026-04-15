@@ -1,18 +1,18 @@
 """
-FastAPI Backend — AI-Powered Phishing Detection API
+FastAPI Backend - AI-Powered Phishing Detection API
 =====================================================
 Endpoints:
-  POST /analyze   → Analyze a URL for phishing indicators
-  GET  /health    → Health check (model status)
-  GET  /stats     → Cache and request statistics
+  POST /analyze   - Analyze a URL for phishing indicators
+  GET  /health    - Health check (model status)
+  GET  /stats     - Cache and request statistics
 
 Production features:
-  ✓ Rate limiting (slowapi)
-  ✓ CORS for Chrome extension
-  ✓ Request caching (in-memory)
-  ✓ Model loaded once at startup
-  ✓ Structured logging
-  ✓ Input validation
+  - Rate limiting (slowapi)
+  - CORS for Chrome extension
+  - Request caching (in-memory)
+  - Model loaded once at startup
+  - Structured logging
+  - Input validation
 """
 
 from contextlib import asynccontextmanager
@@ -26,6 +26,7 @@ import joblib
 import os
 import sys
 import time
+import io
 
 # Ensure project root is importable
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -34,51 +35,53 @@ from backend.models import AnalyzeRequest, AnalyzeResponse
 from backend.core.config import settings
 from backend.analyzer import Analyzer
 
-# ── Logging ──────────────────────────────────────────────────────────────
+# -- Logging (Windows-safe: force UTF-8 on console) -----------------------
+stream_handler = logging.StreamHandler(
+    stream=io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+)
+file_handler = logging.FileHandler("backend_app.log", encoding="utf-8")
+
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s │ %(levelname)-8s │ %(name)s │ %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler("backend_app.log", encoding="utf-8"),
-    ]
+    format='%(asctime)s | %(levelname)-8s | %(name)s | %(message)s',
+    handlers=[stream_handler, file_handler]
 )
 logger = logging.getLogger("sentinel")
 
-# ── Global State ─────────────────────────────────────────────────────────
+# -- Global State ----------------------------------------------------------
 ml_model = None
 analyzer = None
 results_cache: dict = {}
 request_count: int = 0
 
-# ── Lifespan (replaces deprecated on_event) ──────────────────────────────
+# -- Lifespan (replaces deprecated on_event) -------------------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global ml_model, analyzer
-    logger.info("🚀 Starting Sentinel Phishing Detection API...")
-    
+    logger.info("[STARTUP] Starting Sentinel Phishing Detection API...")
+
     model_path = os.path.normpath(settings.MODEL_PATH)
-    logger.info(f"📦 Loading ML model from: {model_path}")
+    logger.info(f"[STARTUP] Loading ML model from: {model_path}")
     try:
         ml_model = joblib.load(model_path)
-        logger.info("✅ ML model loaded successfully.")
+        logger.info("[STARTUP] ML model loaded successfully.")
     except FileNotFoundError:
-        logger.error(f"❌ Model file not found at {model_path}. Run ml_model/train.py first!")
+        logger.error(f"[STARTUP] Model file not found at {model_path}. Run ml_model/train.py first!")
     except Exception as e:
-        logger.error(f"❌ Failed to load model: {e}")
+        logger.error(f"[STARTUP] Failed to load model: {e}")
 
     analyzer = Analyzer(settings)
-    logger.info("✅ Analyzer pipeline initialized.")
-    
+    logger.info("[STARTUP] Analyzer pipeline initialized.")
+
     yield  # App runs here
-    
-    logger.info("🛑 Shutting down Sentinel API.")
+
+    logger.info("[SHUTDOWN] Shutting down Sentinel API.")
 
 
-# ── FastAPI App ──────────────────────────────────────────────────────────
+# -- FastAPI App -----------------------------------------------------------
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(
-    title="Sentinel — AI Phishing Detection API",
+    title="Sentinel - AI Phishing Detection API",
     version="2.0.0",
     description="Detects phishing URLs using ML + heuristic rules + threat intelligence.",
     lifespan=lifespan,
@@ -86,7 +89,7 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# CORS — allow the Chrome extension to call us
+# CORS - allow the Chrome extension to call us
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -96,7 +99,7 @@ app.add_middleware(
 )
 
 
-# ── Endpoints ────────────────────────────────────────────────────────────
+# -- Endpoints -------------------------------------------------------------
 
 @app.get("/health")
 def health_check():
@@ -127,16 +130,16 @@ async def analyze_url(request: Request, payload: AnalyzeRequest):
     request_count += 1
 
     url = payload.url
-    logger.info(f"📥 Request #{request_count}: {url}")
+    logger.info(f"[REQUEST #{request_count}] {url}")
 
     # Cache check
     if url in results_cache:
-        logger.info("⚡ Returning cached result.")
+        logger.info("[CACHE HIT] Returning cached result.")
         return results_cache[url]
 
     # Model check
     if ml_model is None:
-        logger.error("Model not loaded — cannot analyze.")
+        logger.error("Model not loaded - cannot analyze.")
         raise HTTPException(
             status_code=503,
             detail="ML model not loaded. Please run ml_model/train.py and restart the server."
@@ -150,7 +153,7 @@ async def analyze_url(request: Request, payload: AnalyzeRequest):
         logger.exception(f"Analysis failed for {url}")
         raise HTTPException(status_code=500, detail=f"Analysis error: {str(e)}")
     elapsed = time.perf_counter() - start
-    logger.info(f"⏱️ Analysis completed in {elapsed:.3f}s")
+    logger.info(f"[DONE] Analysis completed in {elapsed:.3f}s")
 
     # Cache result
     results_cache[url] = result

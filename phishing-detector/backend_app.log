@@ -1,3 +1,7 @@
 2026-04-15 22:16:19,010 [INFO] Starting up API...
 2026-04-15 22:16:19,010 [INFO] Loading ML model from D:\project 1\phishing-detector\backend\core\..\..\ml_model\model.pkl
 2026-04-15 22:16:21,301 [INFO] ML model loaded successfully.
+2026-04-15 22:31:17,164 │ INFO     │ sentinel │ 🚀 Starting Sentinel Phishing Detection API...
+2026-04-15 22:31:17,314 │ INFO     │ sentinel │ 📦 Loading ML model from: D:\project 1\phishing-detector\ml_model\model.pkl
+2026-04-15 22:31:18,663 │ INFO     │ sentinel │ ✅ ML model loaded successfully.
+2026-04-15 22:31:18,666 │ INFO     │ sentinel │ ✅ Analyzer pipeline initialized.
